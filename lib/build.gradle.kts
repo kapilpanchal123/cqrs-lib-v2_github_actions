@@ -11,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.jackson)
+    compileOnly(libs.jakarta.persistence)
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(libs.guava)
