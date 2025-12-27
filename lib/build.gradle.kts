@@ -1,4 +1,4 @@
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 group = "io.github.kapil-panchal"
 
 plugins {
@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    api(libs.jdbc)
     implementation(libs.jackson)
     compileOnly(libs.jakarta.persistence)
     testImplementation(libs.junit.jupiter)
@@ -39,8 +40,8 @@ mavenPublishing {
     coordinates(group.toString(), name.toString(), version.toString())
 
     pom {
-        name.set("My Library")
-        description.set("A description of what my library does.")
+        name.set("CQRS Library")
+        description.set("Command Query Responsibility Segregation - Library.")
         inceptionYear.set("2025")
         url.set("https://github.com/kapil-panchal")
         licenses {

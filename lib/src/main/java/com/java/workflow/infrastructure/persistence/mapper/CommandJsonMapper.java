@@ -1,5 +1,6 @@
 package com.java.workflow.infrastructure.persistence.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -35,5 +36,18 @@ public class CommandJsonMapper {
     var json = mapper.convertValue(source, ObjectNode.class);
     json.set(CLASS_ATTRIBUTE, new TextNode(source.getClass().getCanonicalName()));
     return json;
+  }
+
+  public String mapToString(Object source) {
+    if (source == null) {
+      return null;
+    }
+    try {
+      ObjectNode json = mapper.convertValue(source, ObjectNode.class);
+      json.put(CLASS_ATTRIBUTE, source.getClass().getCanonicalName());
+      return mapper.writeValueAsString(json);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

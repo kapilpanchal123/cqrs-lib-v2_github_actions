@@ -6,12 +6,14 @@ junit-jupiter = "5.12.1"
 publish-to-maven = "0.35.0"
 jakarta-persistence = "3.2.0"
 jackson = "2.20.1"
+jdbc-version = "7.0.2"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 jakarta-persistence = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakarta-persistence" }
 jackson = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jdbc = { module = "org.springframework:spring-jdbc", version.ref = "jdbc-version" }
 
 [plugins]
 publish-to-maven = { id = "com.vanniktech.maven.publish", version.ref = "publish-to-maven" }
