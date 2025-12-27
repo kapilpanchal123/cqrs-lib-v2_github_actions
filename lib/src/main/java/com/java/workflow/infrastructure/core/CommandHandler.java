@@ -9,7 +9,6 @@ public interface CommandHandler<REQ,RES> {
   RES handle(Command<REQ> command);
 
   default boolean matches(Command<?> command) {
-//    TypeToken<REQ> handlerType = new TypeToken<>() {};
     return requestTypeToken().getRawType().isAssignableFrom(command.getPayload().getClass());
   }
 }
