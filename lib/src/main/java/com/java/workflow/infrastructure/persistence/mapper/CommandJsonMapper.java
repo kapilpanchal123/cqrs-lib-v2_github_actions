@@ -33,7 +33,7 @@ public class CommandJsonMapper {
       return null;
     }
 
-    var json = mapper.convertValue(source, ObjectNode.class);
+    final var json = mapper.convertValue(source, ObjectNode.class);
     json.set(CLASS_ATTRIBUTE, new TextNode(source.getClass().getCanonicalName()));
     return json;
   }
@@ -43,7 +43,7 @@ public class CommandJsonMapper {
       return null;
     }
     try {
-      ObjectNode json = mapper.convertValue(source, ObjectNode.class);
+      final ObjectNode json = mapper.convertValue(source, ObjectNode.class);
       json.put(CLASS_ATTRIBUTE, source.getClass().getCanonicalName());
       return mapper.writeValueAsString(json);
     } catch (JsonProcessingException e) {
