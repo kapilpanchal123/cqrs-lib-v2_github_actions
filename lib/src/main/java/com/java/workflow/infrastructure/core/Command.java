@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public abstract class Command<T> implements Serializable {
+public class Command<T> implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 1L;

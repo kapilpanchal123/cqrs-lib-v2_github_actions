@@ -1,7 +1,6 @@
 package com.java.workflow.infrastructure.persistence.data;
 
 import com.java.workflow.infrastructure.core.Command;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -65,5 +64,17 @@ public class CommandDao implements Serializable {
   public static CommandDao fromCommandDTO(Command<?> command, String payload) {
     return new CommandDao(command.getId(), command.getIdempotencyKey(), command.getStatus(),
         command.getUpdatedAt(), command.getTenantId(), command.getUsername(), payload);
+  }
+
+  public static Command<?> toCommandDTO(CommandDao commandDao) {
+    return new Command<Object>(
+        commandDao.getCommandId(),
+        commandDao.getIdempotencyKey(),
+        commandDao.getStatus(),
+        null,
+        commandDao.getUpdatedAt(),
+        commandDao.getTenantId(),
+        commandDao.getUsername(),
+        commandDao.getPayload());
   }
 }

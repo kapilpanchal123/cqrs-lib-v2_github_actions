@@ -7,6 +7,7 @@ import com.java.workflow.infrastructure.persistence.mapper.CommandJsonMapper;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Objects;
+import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -33,7 +34,7 @@ public class CommandRepository {
     final KeyHolder keyHolder = new GeneratedKeyHolder();
 
     jdbcTemplate.update(connection -> {
-      PreparedStatement ps =
+      final PreparedStatement ps =
           connection.prepareStatement(sqlString.toString(), Statement.RETURN_GENERATED_KEYS);
 
       ps.setString(1, commandDao.getCommandId().toString());
@@ -46,5 +47,14 @@ public class CommandRepository {
     }, keyHolder);
 
     return Objects.requireNonNull(keyHolder.getKey()).longValue();
+  }
+
+  public Boolean updateCommandStatus(String commandId, String status) {
+    final StringBuilder sqlString = new StringBuilder();
+    sqlString.append("UPDATE cqrs.audit_command SET status=? WHERE command_id=?;");
+
+    final int result = jdbcTemplate.update(sqlString.toString(), status, commandId);
+
+    return result == 0 ? Boolean.FALSE : Boolean.TRUE;
   }
 }

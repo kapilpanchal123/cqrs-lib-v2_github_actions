@@ -1,4 +1,4 @@
-version = "0.1.1-SNAPSHOT"
+version = "0.1.2-SNAPSHOT"
 group = "io.github.kapil-panchal"
 
 plugins {
@@ -12,10 +12,13 @@ repositories {
 
 dependencies {
     api(libs.jdbc)
+    api(libs.spring.resilience)
     implementation(libs.jackson)
     compileOnly(libs.jakarta.persistence)
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.junit.jupiter)
     implementation(libs.guava)
 }
 
@@ -29,12 +32,12 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
-//tasks.jar {
-//    manifest {
-//        attributes(mapOf("Library-Title" to project.name,
-//            "Library-Version" to project.version))
-//    }
-//}
+tasks.jar {
+    manifest {
+        attributes(mapOf("Title" to project.name,
+            "Version" to project.version))
+    }
+}
 
 mavenPublishing {
     coordinates(group.toString(), name.toString(), version.toString())

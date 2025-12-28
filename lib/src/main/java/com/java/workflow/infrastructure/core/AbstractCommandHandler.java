@@ -7,7 +7,7 @@ public abstract class AbstractCommandHandler<REQ,RES> implements CommandHandler<
   private final TypeToken<REQ> requestTypeToken;
 
   protected AbstractCommandHandler() {
-    this.requestTypeToken = new TypeToken<REQ>(getClass()) {};
+    this.requestTypeToken = new TypeToken<>(getClass()) {};
   }
 
   @Override
