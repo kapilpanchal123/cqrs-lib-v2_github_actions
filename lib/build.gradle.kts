@@ -4,6 +4,7 @@ group = "io.github.kapil-panchal"
 plugins {
     `java-library`
     alias(libs.plugins.publish.to.maven)
+    jacoco
 }
 
 repositories {
@@ -36,6 +37,19 @@ tasks.jar {
     manifest {
         attributes(mapOf("Title" to project.name,
             "Version" to project.version))
+    }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
 }
 
