@@ -63,4 +63,20 @@ class DefaultCommandRouterTest {
   void test_null_command_throws_NPE() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> defaultCommandRouter.route(null));
   }
+
+  @Test
+  void test_no_matching_command_handler_throws_exception() {
+    // given
+    Mockito.when(userCommandHandler.matches(userCommand)).thenReturn(false);
+
+    // when + then
+    IllegalArgumentException ex = Assertions.assertThrows(
+        IllegalArgumentException.class,
+        () -> defaultCommandRouter.route(userCommand)
+    );
+
+    Assertions.assertTrue(
+        ex.getMessage().contains("Command Handler Not Found for CommandId")
+    );
+  }
 }
