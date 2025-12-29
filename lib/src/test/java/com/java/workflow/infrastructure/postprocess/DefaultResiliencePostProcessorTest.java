@@ -51,16 +51,18 @@ class DefaultResiliencePostProcessorTest {
     UUID commandId = UUID.fromString("7e9fd6b4-a6a7-45bb-94e2-57b0de203608");
     Throwable cause = new RuntimeException("Database Error");
 
+    @SuppressWarnings("unchecked")
+    Command<TestPayloadRequest> command = Mockito.mock(Command.class);
+    Mockito.when(command.getId()).thenReturn(commandId);
+
     // when
     RuntimeException ex = Assertions.assertThrows(
         RuntimeException.class,
-        () -> postProcessor.updateCommandStatusFallback(commandId, cause)
+        () -> postProcessor.updateCommandStatusFallback(command, cause)
     );
 
     // then
-    Assertions.assertTrue(
-        ex.getMessage().contains("Critical failure")
-    );
+    Assertions.assertTrue(ex.getMessage().contains("Critical failure"));
     Assertions.assertEquals(cause, ex.getCause());
   }
 }
