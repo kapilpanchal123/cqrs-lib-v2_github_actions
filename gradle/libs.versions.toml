@@ -1,9 +1,7 @@
-# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
-
 [versions]
 guava = "33.4.6-jre"
 junit-jupiter = "5.12.1"
-publish-to-maven = "0.35.0"
+publish-to-maven = "0.36.0"
 jakarta-persistence = "3.2.0"
 jackson = "2.20.1"
 jdbc-version = "7.0.2"

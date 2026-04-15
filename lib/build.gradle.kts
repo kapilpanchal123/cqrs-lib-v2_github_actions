@@ -1,84 +1,83 @@
-version = "0.1.2"
+version = "0.1.3"
 group = "io.github.kapil-panchal"
 
 plugins {
-    `java-library`
-    alias(libs.plugins.publish.to.maven)
-    jacoco
+  `java-library`
+  alias(libs.plugins.publish.to.maven)
+  jacoco
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    api(libs.jdbc)
-    api(libs.spring.resilience)
-    implementation(libs.jackson)
-    compileOnly(libs.jakarta.persistence)
-    testImplementation(libs.junit.jupiter)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.junit.jupiter)
-    implementation(libs.guava)
+  api(libs.spring.resilience)
+  implementation(libs.jackson)
+  compileOnly(libs.jakarta.persistence)
+  testImplementation(libs.junit.jupiter)
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testImplementation(libs.mockito.core)
+  testImplementation(libs.mockito.junit.jupiter)
+  implementation(libs.guava)
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 tasks.named<Test>("test") {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
 
 tasks.jar {
-    manifest {
-        attributes(mapOf("Title" to project.name,
-            "Version" to project.version))
-    }
+  manifest {
+    attributes(mapOf("Title" to project.name,
+      "Version" to project.version))
+  }
 }
 
 tasks.test {
-    finalizedBy(tasks.jacocoTestReport)
+  finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-    reports {
-        xml.required = false
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
-    }
+  dependsOn(tasks.test)
+  reports {
+    xml.required = false
+    csv.required = false
+    html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+  }
 }
 
 mavenPublishing {
-    coordinates(group.toString(), name.toString(), version.toString())
+  coordinates(group.toString(), name.toString(), version.toString())
 
-    pom {
-        name.set("CQRS Library")
-        description.set("Command Query Responsibility Segregation - Library.")
-        inceptionYear.set("2025")
-        url.set("https://github.com/kapil-panchal")
-        licenses {
-            license {
-                name.set("The Apache License, Version 2.0")
-                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-            }
-        }
-        developers {
-            developer {
-                id.set("kapil-panchal")
-                name.set("Kapil Panchal")
-                url.set("https://github.com/kapil-panchal")
-            }
-        }
-        scm {
-            url.set("https://github.com/CQRS-Library-Architecture/cqrs-lib-v2")
-            connection.set("scm:git:git://github.com/CQRS-Library-Architecture/cqrs-lib-v2.git")
-            developerConnection.set("scm:git:ssh://git@github.com:CQRS-Library-Architecture/cqrs-lib-v2.git")
-        }
+  pom {
+    name.set("CQRS Library")
+    description.set("Command Query Responsibility Segregation - Library")
+    inceptionYear.set("2025")
+    url.set("https://github.com/CQRS-Library-Architecture/cqrs-lib-v2")
+    licenses {
+      license {
+        name.set("The Apache License, Version 2.0")
+        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+        distribution.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+      }
     }
+    developers {
+      developer {
+        id.set("Kapil Panchal")
+        name.set("Kapil Panchal")
+        url.set("https://github.com/CQRS-Library-Architecture/cqrs-lib-v2")
+      }
+    }
+    scm {
+      url.set("https://github.com/CQRS-Library-Architecture/cqrs-lib-v2")
+      connection.set("scm:git:git://github.com/CQRS-Library-Architecture/cqrs-lib-v2.git")
+      developerConnection.set("scm:git:ssh://git@github.com:CQRS-Library-Architecture/cqrs-lib-v2.git")
+    }
+  }
 }
