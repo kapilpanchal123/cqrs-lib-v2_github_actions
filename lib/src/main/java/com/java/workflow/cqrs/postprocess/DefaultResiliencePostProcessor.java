@@ -21,9 +21,4 @@ public class DefaultResiliencePostProcessor<T> implements CommandPostProcessor<T
   public void run(final Command<T> command) {
     commandStore.updateStatus(command.getId(), STATUS);
   }
-
-  public void updateCommandStatusFallback(final Command<T> command, final Throwable e) {
-    log.error("Retries exhausted for command {}, marking as failed in memory only. Root cause: {}", command.getId(), e.getMessage());
-    throw new RuntimeException("Critical failure: Unable to update command status; DB unreachable", e);
-  }
 }

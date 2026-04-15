@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-  api(libs.spring.resilience)
+  implementation(libs.slf4j)
   implementation(libs.jackson)
   compileOnly(libs.jakarta.persistence)
   testImplementation(libs.junit.jupiter)
