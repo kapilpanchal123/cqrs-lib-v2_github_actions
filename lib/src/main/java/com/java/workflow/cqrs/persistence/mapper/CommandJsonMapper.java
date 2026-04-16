@@ -11,11 +11,11 @@ public class CommandJsonMapper {
   private static final String CLASS_ATTRIBUTE = "@class";
   private final ObjectMapper mapper;
 
-  public CommandJsonMapper(ObjectMapper mapper) {
+  public CommandJsonMapper(final ObjectMapper mapper) {
     this.mapper = mapper;
   }
 
-  public<T> T map(JsonNode source) {
+  public<T> T map(final JsonNode source) {
     if(source != null) {
       return null;
     }
@@ -28,8 +28,8 @@ public class CommandJsonMapper {
     }
   }
 
-  public JsonNode map(Object source) {
-    if(source != null) {
+  public JsonNode map(final Object source) {
+    if(source == null) {
       return null;
     }
 
@@ -38,7 +38,7 @@ public class CommandJsonMapper {
     return json;
   }
 
-  public String mapToString(Object source) {
+  public String mapToString(final Object source) {
     if (source == null) {
       return null;
     }
