@@ -1,25 +1,25 @@
-# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
-
 [versions]
 guava = "33.4.6-jre"
 junit-jupiter = "5.12.1"
-publish-to-maven = "0.35.0"
+publish-to-maven = "0.36.0"
 jakarta-persistence = "3.2.0"
 jackson = "2.20.1"
-jdbc-version = "7.0.2"
-spring-resilience = "5.0.0"
 mockito-core = "5.21.0"
 mockito-junit-jupiter = "5.21.0"
+slf4jver = "2.0.17"
+jacksondatabindver = "2.21.2"
+jacksonjsr = "2.21.2"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 jakarta-persistence = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakarta-persistence" }
 jackson = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
-jdbc = { module = "org.springframework:spring-jdbc", version.ref = "jdbc-version" }
-spring-resilience = { module = "org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j", version.ref = "spring-resilience" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-junit-jupiter" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref="slf4jver" }
+jacksondatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksondatabindver" }
+jacksonjsr310   = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jacksonjsr" }
 
 [plugins]
 publish-to-maven = { id = "com.vanniktech.maven.publish", version.ref = "publish-to-maven" }
