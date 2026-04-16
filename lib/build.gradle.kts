@@ -1,4 +1,4 @@
-version = "0.1.5"
+version = "0.1.7"
 group = "io.github.kapil-panchal"
 
 plugins {
@@ -8,6 +8,7 @@ plugins {
 }
 
 repositories {
+  mavenLocal()
   mavenCentral()
 }
 
