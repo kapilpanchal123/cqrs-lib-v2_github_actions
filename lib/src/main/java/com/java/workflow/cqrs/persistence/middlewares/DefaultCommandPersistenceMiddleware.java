@@ -2,7 +2,7 @@ package com.java.workflow.cqrs.persistence.middlewares;
 
 import com.java.workflow.cqrs.core.Command;
 import com.java.workflow.cqrs.core.CommandMiddleware;
-import com.java.workflow.cqrs.persistence.domain.CommandStore;
+import com.java.workflow.cqrs.persistence.repository.CommandStore;
 
 public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
 

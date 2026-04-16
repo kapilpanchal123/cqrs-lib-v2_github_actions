@@ -1,4 +1,4 @@
-version = "0.1.3"
+version = "0.1.5"
 group = "io.github.kapil-panchal"
 
 plugins {
@@ -12,7 +12,9 @@ repositories {
 }
 
 dependencies {
-  implementation(libs.slf4j)
+  api(libs.jacksonjsr310)
+  api(libs.jacksondatabind)
+  api(libs.slf4j)
   implementation(libs.jackson)
   compileOnly(libs.jakarta.persistence)
   testImplementation(libs.junit.jupiter)

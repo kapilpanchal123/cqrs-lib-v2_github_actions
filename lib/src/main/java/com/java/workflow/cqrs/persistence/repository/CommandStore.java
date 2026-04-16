@@ -1,4 +1,4 @@
-package com.java.workflow.cqrs.persistence.domain;
+package com.java.workflow.cqrs.persistence.repository;
 
 import com.java.workflow.cqrs.core.Command;
 import java.util.UUID;

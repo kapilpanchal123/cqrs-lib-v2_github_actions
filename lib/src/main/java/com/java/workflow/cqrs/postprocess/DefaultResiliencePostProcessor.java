@@ -2,7 +2,7 @@ package com.java.workflow.cqrs.postprocess;
 
 import com.java.workflow.cqrs.core.Command;
 import com.java.workflow.cqrs.core.CommandPostProcessor;
-import com.java.workflow.cqrs.persistence.domain.CommandStore;
+import com.java.workflow.cqrs.persistence.repository.CommandStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
