@@ -26,14 +26,66 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+/**
+ * JPA attribute converter that serializes and deserializes {@link com.fasterxml.jackson.databind.JsonNode}
+ * objects to and from their JSON string representation.
+ *
+ * <p>This converter enables seamless persistence of JSON structures in relational databases by
+ * automatically converting {@code JsonNode} instances into a {@link String} column and vice versa.
+ *
+ * <h2>Purpose</h2>
+ * <p>This class is used in JPA entities to:
+ * <ul>
+ *   <li>Persist flexible JSON structures in a single database column</li>
+ *   <li>Avoid the need for custom schema changes for dynamic JSON payloads</li>
+ *   <li>Ensure consistent serialization/deserialization using Jackson</li>
+ * </ul>
+ *
+ * <h2>Serialization Behavior</h2>
+ * <p>The underlying {@link com.fasterxml.jackson.databind.ObjectMapper} is configured to:
+ * <ul>
+ *   <li>Automatically register available Jackson modules</li>
+ *   <li>Write {@code BigDecimal} values in plain format</li>
+ *   <li>Use {@code BigDecimal} for floating-point deserialization to preserve precision</li>
+ * </ul>
+ *
+ * <h2>Null Handling</h2>
+ * <p>If the source value is {@code null}, both conversion methods return {@code null},
+ * allowing optional JSON columns in the database.
+ *
+ * <h2>Error Handling</h2>
+ * <p>Serialization and deserialization errors are wrapped in a {@link RuntimeException}.
+ * This ensures JPA transaction rollback behavior while avoiding checked exceptions
+ * in persistence layers.
+ *
+ * <h2>Thread Safety</h2>
+ * <p>This class is thread-safe. The underlying {@link ObjectMapper} is immutable after
+ * configuration and safe for concurrent use.
+ *
+ * @see jakarta.persistence.AttributeConverter
+ * @see com.fasterxml.jackson.databind.JsonNode
+ */
 @Converter
 public class JsonAttributeConverter implements AttributeConverter<JsonNode, String> {
 
+  /**
+   * Shared Jackson {@link com.fasterxml.jackson.databind.ObjectMapper} used for JSON
+   * serialization and deserialization.
+   *
+   * <p>Configured to handle numeric precision and automatically register modules.
+   */
   private static final ObjectMapper MAPPER = new ObjectMapper()
       .findAndRegisterModules()
       .configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true)
       .configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
 
+  /**
+   * Converts a {@link JsonNode} into its JSON string representation for database storage.
+   *
+   * @param source the JSON node to convert
+   * @return JSON string representation, or {@code null} if input is {@code null}
+   * @throws RuntimeException if serialization fails
+   */
   @Override
   public String convertToDatabaseColumn(final JsonNode source) {
     try {
@@ -43,6 +95,13 @@ public class JsonAttributeConverter implements AttributeConverter<JsonNode, Stri
     }
   }
 
+  /**
+   * Converts a JSON string from the database into a {@link JsonNode}.
+   *
+   * @param source the JSON string stored in the database
+   * @return parsed {@link JsonNode}, or {@code null} if input is {@code null}
+   * @throws RuntimeException if deserialization fails
+   */
   @Override
   public JsonNode convertToEntityAttribute(final String source) {
     try {

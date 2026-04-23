@@ -22,10 +22,60 @@ import java.util.UUID;
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandStatus;
 
+/**
+ * Persistence abstraction for storing and updating {@link Command} lifecycle information
+ * in a CQRS (Command Query Responsibility Segregation) system.
+ *
+ * <p>The {@code CommandStore} is responsible for maintaining a durable record of commands
+ * for auditing, traceability, and recovery purposes.
+ *
+ * <h2>Purpose</h2>
+ * <p>This interface defines the contract for:
+ * <ul>
+ *   <li>Persisting newly received commands</li>
+ *   <li>Updating the execution status of existing commands</li>
+ * </ul>
+ *
+ * <h2>Usage in CQRS Pipeline</h2>
+ * <p>Implementations of this interface are typically used by:
+ * <ul>
+ *   <li>Persistence middleware to store incoming commands</li>
+ *   <li>Execution components to update command lifecycle state</li>
+ *   <li>Monitoring and auditing systems</li>
+ * </ul>
+ *
+ * <h2>Command Lifecycle Tracking</h2>
+ * <p>The store is expected to persist and manage transitions of {@link CommandStatus}
+ * such as INIT, PENDING, PROCESSING, COMPLETED, and FAILED.
+ *
+ * <h2>Thread Safety</h2>
+ * <p>Implementations should be thread-safe as they are expected to be accessed
+ * concurrently in distributed or multi-threaded environments.
+ *
+ * @see Command
+ * @see CommandStatus
+ */
 public interface CommandStore {
 
+  /**
+   * Persists a new {@link Command} into the storage system.
+   *
+   * <p>This method is typically invoked before command execution begins to ensure
+   * durability and traceability.
+   *
+   * @param command the command to be persisted
+   */
   void save(final Command<?> command);
 
+  /**
+   * Updates the execution status of an existing command.
+   *
+   * <p>This method is used to track lifecycle transitions of a command during
+   * or after execution.
+   *
+   * @param commandId the unique identifier of the command
+   * @param status the new {@link CommandStatus} to be applied
+   */
   void updateStatus(final UUID commandId, final CommandStatus status);
 
 }
