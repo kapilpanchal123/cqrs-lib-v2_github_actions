@@ -16,11 +16,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-plugins {
-  id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+package org.workflow.cqrs.implementation.data;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class TestPayloadResponse implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  private Map<String, Object> response = new LinkedHashMap<>();
+
+  public TestPayloadResponse() {
+  }
+
+  public TestPayloadResponse(Map<String, Object> response) {
+    this.response = response;
+  }
+
+  public Map<String, Object> getResponse() {
+    return response;
+  }
+
+  public void setResponse(Map<String, Object> response) {
+    this.response = response;
+  }
 }
-
-rootProject.name = "CqrsCoreLibrary"
-include("cqrs-core")
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

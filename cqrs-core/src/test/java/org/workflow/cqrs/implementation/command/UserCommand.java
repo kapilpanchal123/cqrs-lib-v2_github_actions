@@ -16,11 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-plugins {
-  id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+package org.workflow.cqrs.implementation.command;
+
+import org.workflow.cqrs.core.Command;
+import org.workflow.cqrs.implementation.data.TestPayloadRequest;
+import java.io.Serial;
+
+public class UserCommand extends Command<TestPayloadRequest> {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
 }
-
-rootProject.name = "CqrsCoreLibrary"
-include("cqrs-core")
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
