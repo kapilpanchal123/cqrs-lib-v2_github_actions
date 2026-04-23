@@ -1,4 +1,66 @@
 Manifest-Version: 1.0
-Implementation-Title: lib
-Implementation-Version: 0.1.0
+Bundle-Description: This repository contains a lightweight implementat
+ ion of the Command Query Responsibility Segregation (CQRS) pattern wr
+ itten in 100% Java. It provides abstractions for Commands, Queries, a
+ nd their respective handlers, enabling clear separation between write
+  and read operations. The library supports extensible pipelines for v
+ alidation, logging, and idempotency, and is designed to integrate sea
+ mlessly with event-driven architectures and microservices. Core compo
+ nents include command dispatching, query handling, and customizable e
+ xecution flows, allowing developers to build scalable and maintainabl
+ e systems with minimal boilerplate.
+Bundle-DocURL: https://github.com/CQRS-Library-Architecture/cqrs-lib-v
+ 2
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CQRS Library
+Bundle-SymbolicName: org.workflow.cqrs
+Bundle-Version: 0.1.8
+Created-By: 21.0.9 (Azul Systems, Inc.)
+Export-Package: org.workflow.cqrs.api;version="0.1.8",org.workflow.cqr
+ s;version="0.1.8"
+Import-Package: android.os,java.beans,java.io,java.lang,java.lang.anno
+ tation,java.lang.invoke,java.lang.ref,java.lang.reflect,java.math,jav
+ a.net,java.nio,java.nio.channels,java.nio.charset,java.nio.file,java.
+ nio.file.attribute,java.nio.file.spi,java.security,java.sql,java.text
+ ,java.time,java.time.temporal,java.util,java.util.concurrent,java.uti
+ l.concurrent.atomic,java.util.concurrent.locks,java.util.function,jav
+ a.util.jar,java.util.logging,java.util.regex,java.util.stream,java.ut
+ il.zip,javax.crypto,javax.crypto.spec,javax.lang.model.element,javax.
+ sql,javax.xml.datatype,javax.xml.namespace,javax.xml.parsers,javax.xm
+ l.transform,javax.xml.transform.dom,javax.xml.transform.stream,org.w3
+ c.dom,org.xml.sax,sun.misc
+Private-Package: org.workflow.cqrs.core,org.workflow.cqrs.implementati
+ on,org.workflow.cqrs.persistence.converter,org.workflow.cqrs.persiste
+ nce.mapper,org.workflow.cqrs.persistence.middlewares,org.workflow.cqr
+ s.persistence.repository,org.workflow.cqrs.postprocess,com.fasterxml.
+ jackson.core,com.fasterxml.jackson.databind,com.fasterxml.jackson.dat
+ abind.node,com.google.common.reflect,jakarta.persistence,org.slf4j,co
+ m.fasterxml.jackson.annotation,com.fasterxml.jackson.core.async,com.f
+ asterxml.jackson.core.base,com.fasterxml.jackson.core.exc,com.fasterx
+ ml.jackson.core.filter,com.fasterxml.jackson.core.format,com.fasterxm
+ l.jackson.core.io,com.fasterxml.jackson.core.json,com.fasterxml.jacks
+ on.core.json.async,com.fasterxml.jackson.core.sym,com.fasterxml.jacks
+ on.core.type,com.fasterxml.jackson.core.util,com.fasterxml.jackson.da
+ tabind.annotation,com.fasterxml.jackson.databind.cfg,com.fasterxml.ja
+ ckson.databind.deser,com.fasterxml.jackson.databind.deser.impl,com.fa
+ sterxml.jackson.databind.exc,com.fasterxml.jackson.databind.introspec
+ t,com.fasterxml.jackson.databind.json,com.fasterxml.jackson.databind.
+ jsonFormatVisitors,com.fasterxml.jackson.databind.jsonschema,com.fast
+ erxml.jackson.databind.jsontype,com.fasterxml.jackson.databind.jsonty
+ pe.impl,com.fasterxml.jackson.databind.ser,com.fasterxml.jackson.data
+ bind.ser.impl,com.fasterxml.jackson.databind.ser.std,com.fasterxml.ja
+ ckson.databind.type,com.fasterxml.jackson.databind.util,com.google.co
+ mmon.base,com.google.common.collect,com.google.common.io,com.google.c
+ ommon.primitives,com.google.errorprone.annotations,com.google.errorpr
+ one.annotations.concurrent,jakarta.persistence.criteria,jakarta.persi
+ stence.metamodel,jakarta.persistence.spi,org.jspecify.annotations,org
+ .slf4j.event,org.slf4j.helpers,org.slf4j.spi,com.fasterxml.jackson.co
+ re.internal.shaded.fdp.v2_21_2,com.fasterxml.jackson.core.io.schubfac
+ h,com.fasterxml.jackson.databind.deser.std,com.fasterxml.jackson.data
+ bind.ext,com.fasterxml.jackson.databind.jdk14,com.fasterxml.jackson.d
+ atabind.util.internal,com.google.common.base.internal,com.google.comm
+ on.graph,com.google.common.hash,com.google.common.math
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=21))"
+Tool: Bnd-7.2.3.202603250810
 

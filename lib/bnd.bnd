@@ -1,0 +1,27 @@
+Bundle-Name: CQRS Library
+Bundle-SymbolicName: org.workflow.cqrs
+Bundle-Version: 0.1.8
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+
+Bundle-Description: This repository contains a lightweight \
+ implementation of the Command Query Responsibility Segregation \
+ (CQRS) pattern written in 100% Java. It provides abstractions \
+ for Commands, Queries, and their respective handlers, enabling \
+ clear separation between write and read operations. \
+ The library supports extensible pipelines for validation, \
+ logging, and idempotency, and is designed to integrate \
+ seamlessly with event-driven architectures and microservices. \
+ Core components include command dispatching, query handling, \
+ and customizable execution flows, allowing developers to build \
+ scalable and maintainable systems with minimal boilerplate.
+
+Bundle-DocURL: https://github.com/CQRS-Library-Architecture/cqrs-lib-v2
+
+Export-Package: org.workflow.cqrs.api;-noimport:=true
+
+-exportcontents: org.workflow.cqrs
+-importpackage: *
+-conditionalpackage: *
+-includeresource: *
+-baseline: *
+-baselinerepo: Released

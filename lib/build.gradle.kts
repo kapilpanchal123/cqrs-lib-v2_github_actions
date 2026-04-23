@@ -22,10 +22,12 @@ group = "io.github.kapil-panchal"
 plugins {
   `java-library`
   alias(libs.plugins.publish.to.maven)
+  alias(libs.plugins.osgipublish)
   jacoco
 }
 
 repositories {
+  mavenLocal()
   mavenCentral()
 }
 
@@ -50,13 +52,6 @@ java {
 
 tasks.named<Test>("test") {
   useJUnitPlatform()
-}
-
-tasks.jar {
-  manifest {
-    attributes(mapOf("Title" to project.name,
-      "Version" to project.version))
-  }
 }
 
 tasks.test {
