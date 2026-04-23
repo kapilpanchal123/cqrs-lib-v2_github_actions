@@ -27,7 +27,6 @@ plugins {
 }
 
 repositories {
-  mavenLocal()
   mavenCentral()
 }
 
@@ -71,7 +70,7 @@ mavenPublishing {
   coordinates(group.toString(), name.toString(), version.toString())
 
   pom {
-    name.set("CQRS Library")
+    name.set("CQRS Core Library")
     description.set("Command Query Responsibility Segregation - Library")
     inceptionYear.set("2025")
     url.set("https://github.com/CQRS-Library-Architecture/cqrs-lib-v2")
