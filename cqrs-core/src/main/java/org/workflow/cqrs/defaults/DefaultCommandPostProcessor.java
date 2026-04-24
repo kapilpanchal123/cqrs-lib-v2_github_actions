@@ -24,6 +24,7 @@ import org.workflow.cqrs.core.CommandStatus;
 import org.workflow.cqrs.core.CommandStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.workflow.cqrs.transactions.CommandTransactionManager;
 
 /**
  * Default implementation of {@link CommandPostProcessor} for CQRS command execution.
@@ -80,13 +81,18 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
    */
   private final CommandStore commandStore;
 
+  private final CommandTransactionManager transactionManager;
+
   /**
    * Creates a new {@code DefaultCommandPostProcessor}.
    *
    * @param commandStore the store used to persist command status updates
    */
-  public DefaultCommandPostProcessor(final CommandStore commandStore) {
+  public DefaultCommandPostProcessor(
+      final CommandStore commandStore,
+      final CommandTransactionManager transactionManager) {
     this.commandStore = commandStore;
+    this.transactionManager = transactionManager;
   }
 
   /**
@@ -99,6 +105,9 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
    */
   @Override
   public void run(final Command<T> command) {
-    commandStore.update(command.getId(), CommandStatus.COMPLETED);
+    transactionManager.executeIndependent(txStatus -> {
+      commandStore.update(command.getId(), CommandStatus.COMPLETED);
+      return null;
+    });
   }
 }
