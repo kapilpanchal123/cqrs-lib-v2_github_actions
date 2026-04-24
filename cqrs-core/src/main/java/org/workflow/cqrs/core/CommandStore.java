@@ -76,4 +76,6 @@ public interface CommandStore {
    */
   void updateStatus(final UUID commandId, final CommandStatus status);
 
+  void updateStatus(final UUID commandId, final CommandStatus status, final String error);
+
 }

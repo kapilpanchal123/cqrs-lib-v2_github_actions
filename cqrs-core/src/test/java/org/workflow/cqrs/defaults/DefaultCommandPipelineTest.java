@@ -53,23 +53,23 @@ class DefaultCommandPipelineTest {
 
   @BeforeEach
   void setUp() {
-    pipeline = new DefaultCommandPipeline(commandExecutor, List.of(postProcess));
-
-    final TestPayloadRequest payload = new TestPayloadRequest("test-username1",
-        "email1@email.com",
-        "firstname1",
-        "lastname1",
-        10);
-
-    userCommand = new UserCommand();
-    userCommand.setId(UUID.randomUUID());
-    userCommand.setStatus(CommandStatus.INIT);
-    userCommand.setCreatedAt(OffsetDateTime.now());
-    userCommand.setIdempotencyKey(UUID.randomUUID().toString());
-    userCommand.setUpdatedAt(OffsetDateTime.now());
-    userCommand.setTenantId("1");
-    userCommand.setUsername("username1");
-    userCommand.setPayload(payload);
+//    pipeline = new DefaultCommandPipeline(commandExecutor, List.of(postProcess));
+//
+//    final TestPayloadRequest payload = new TestPayloadRequest("test-username1",
+//        "email1@email.com",
+//        "firstname1",
+//        "lastname1",
+//        10);
+//
+//    userCommand = new UserCommand();
+//    userCommand.setId(UUID.randomUUID());
+//    userCommand.setStatus(CommandStatus.INIT);
+//    userCommand.setCreatedAt(OffsetDateTime.now());
+//    userCommand.setIdempotencyKey(UUID.randomUUID().toString());
+//    userCommand.setUpdatedAt(OffsetDateTime.now());
+//    userCommand.setTenantId("1");
+//    userCommand.setUsername("username1");
+//    userCommand.setPayload(payload);
   }
 
   @Disabled

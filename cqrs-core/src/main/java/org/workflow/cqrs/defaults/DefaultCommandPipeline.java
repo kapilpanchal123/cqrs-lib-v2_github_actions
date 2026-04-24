@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandExecutor;
+import org.workflow.cqrs.core.CommandFailure;
 import org.workflow.cqrs.core.CommandPipeline;
 import org.workflow.cqrs.core.CommandPostProcessor;
 
@@ -87,18 +88,23 @@ import org.workflow.cqrs.core.CommandPostProcessor;
 public class DefaultCommandPipeline implements CommandPipeline {
 
   private final CommandExecutor executor;
-  private final List<CommandPostProcessor<?>> postProcessor;
+  private final List<CommandPostProcessor<?>> postProcessors;
+  private final List<CommandFailure> failureHandlers;
 
   /**
    * Creates a new {@code DefaultCommandPipeline}.
    *
    * @param executor the command executor responsible for executing commands
-   * @param postProcessor list of post-processors executed after command execution
+   * @param postProcessors list of post-processors executed after command execution
+   * @param failureHandlers list of failureHandlers executed after command execution
    */
-  public DefaultCommandPipeline(final CommandExecutor executor,
-                                final List<CommandPostProcessor<?>> postProcessor) {
+  public DefaultCommandPipeline(
+      final CommandExecutor executor,
+      final List<CommandPostProcessor<?>> postProcessors,
+      final List<CommandFailure> failureHandlers) {
     this.executor = executor;
-    this.postProcessor = postProcessor;
+    this.postProcessors = postProcessors;
+    this.failureHandlers = failureHandlers;
   }
 
   /**
@@ -118,30 +124,43 @@ public class DefaultCommandPipeline implements CommandPipeline {
   @Override
   public <REQ,RES> Supplier<RES> send(final Command<REQ> command) {
     Objects.requireNonNull(command, "Command Must Not be Null.");
-    final Supplier<RES> baseSupplier = executor.execute(command);
+
+    Supplier<RES> baseSupplier;
+    try {
+      baseSupplier = executor.execute(command);
+    } catch(Throwable e) {
+      for(final CommandFailure handler : failureHandlers) {
+        handler.onFailure(command, e);
+      }
+
+      if(e instanceof RuntimeException) {
+        throw (RuntimeException) e;
+      }
+      throw new RuntimeException(e);
+    }
 
     // Wrap base supplier with post-processing
     return () -> {
-      RES result = null;
-      Throwable exception = null;
-
       try {
-        result = baseSupplier.get();
+        RES result = baseSupplier.get();
+
+        // Execute post-processing with both result and exception
+        for(final CommandPostProcessor<?> postProcessor : postProcessors) {
+          final CommandPostProcessor<REQ> typedProcessor = (CommandPostProcessor<REQ>) postProcessor;
+          typedProcessor.run(command);
+        }
+        return result;
       } catch(final Throwable e) {
-        exception = e;
-      }
+        // Failure Handlers to handle incase of command failure
+        for(final CommandFailure handler : failureHandlers) {
+          handler.onFailure(command, e);
+        }
 
-      // Execute post-processing with both result and exception
-      for(final CommandPostProcessor<?> postProcess : postProcessor) {
-        final CommandPostProcessor<REQ> typedProcessor = (CommandPostProcessor<REQ>) postProcess;
-        typedProcessor.run(command);
+        if(e instanceof RuntimeException) {
+          throw (RuntimeException) e;
+        }
+        throw new RuntimeException(e);
       }
-
-      // If exception occurred, propagate it
-      if(exception != null) {
-        throw new RuntimeException("Handler Execution Failed: " + exception);
-      }
-      return result;
     };
   }
 }
