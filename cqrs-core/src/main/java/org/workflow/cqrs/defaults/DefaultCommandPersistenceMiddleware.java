@@ -20,6 +20,7 @@ package org.workflow.cqrs.defaults;
 
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandMiddleware;
+import org.workflow.cqrs.core.CommandStatus;
 import org.workflow.cqrs.core.CommandStore;
 
 /**
@@ -84,6 +85,6 @@ public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
    */
   @Override
   public void invoke(final Command<?> command) {
-    commandStore.save(command);
+    commandStore.save(command, CommandStatus.PROCESSING);
   }
 }

@@ -23,9 +23,10 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandExecutor;
-import org.workflow.cqrs.core.CommandFailure;
 import org.workflow.cqrs.core.CommandPipeline;
 import org.workflow.cqrs.core.CommandPostProcessor;
+import org.workflow.cqrs.failure.CommandFailureStage;
+import org.workflow.cqrs.failure.CommandFailureStrategy;
 
 /**
  * Default implementation of the {@link CommandPipeline} responsible for orchestrating
@@ -89,7 +90,7 @@ public class DefaultCommandPipeline implements CommandPipeline {
 
   private final CommandExecutor executor;
   private final List<CommandPostProcessor<?>> postProcessors;
-  private final List<CommandFailure> failureHandlers;
+  private final List<CommandFailureStrategy> failureHandlers;
 
   /**
    * Creates a new {@code DefaultCommandPipeline}.
@@ -101,7 +102,7 @@ public class DefaultCommandPipeline implements CommandPipeline {
   public DefaultCommandPipeline(
       final CommandExecutor executor,
       final List<CommandPostProcessor<?>> postProcessors,
-      final List<CommandFailure> failureHandlers) {
+      final List<CommandFailureStrategy> failureHandlers) {
     this.executor = executor;
     this.postProcessors = postProcessors;
     this.failureHandlers = failureHandlers;
@@ -124,13 +125,15 @@ public class DefaultCommandPipeline implements CommandPipeline {
   @Override
   public <REQ,RES> Supplier<RES> send(final Command<REQ> command) {
     Objects.requireNonNull(command, "Command Must Not be Null.");
-
+    // Execution Block
     Supplier<RES> baseSupplier;
     try {
       baseSupplier = executor.execute(command);
     } catch(Throwable e) {
-      for(final CommandFailure handler : failureHandlers) {
-        handler.onFailure(command, e);
+      for(final CommandFailureStrategy handler : failureHandlers) {
+        if(handler.supports(CommandFailureStage.EXECUTION)) {
+          handler.onFailure(command, e);
+        }
       }
 
       if(e instanceof RuntimeException) {
@@ -139,6 +142,7 @@ public class DefaultCommandPipeline implements CommandPipeline {
       throw new RuntimeException(e);
     }
 
+    // Post-processing block
     // Wrap base supplier with post-processing
     return () -> {
       try {
@@ -152,8 +156,10 @@ public class DefaultCommandPipeline implements CommandPipeline {
         return result;
       } catch(final Throwable e) {
         // Failure Handlers to handle incase of command failure
-        for(final CommandFailure handler : failureHandlers) {
-          handler.onFailure(command, e);
+        for(final CommandFailureStrategy handler : failureHandlers) {
+          if(handler.supports(CommandFailureStage.POST_PROCESSING)) {
+            handler.onFailure(command, e);
+          }
         }
 
         if(e instanceof RuntimeException) {
