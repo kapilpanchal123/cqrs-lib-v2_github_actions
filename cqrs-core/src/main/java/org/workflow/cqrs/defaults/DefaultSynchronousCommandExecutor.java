@@ -108,8 +108,8 @@ public class DefaultSynchronousCommandExecutor implements CommandExecutor {
    */
   @Override
   public <REQ, RES> Supplier<RES> execute(final Command<REQ> command) {
+    command.setStatus(CommandStatus.PROCESSING);
     for(final CommandMiddleware middleware : middlewares) {
-      command.setStatus(CommandStatus.PROCESSING);
       middleware.invoke(command);
     }
     final CommandHandler<REQ,RES> handler = router.route(command);

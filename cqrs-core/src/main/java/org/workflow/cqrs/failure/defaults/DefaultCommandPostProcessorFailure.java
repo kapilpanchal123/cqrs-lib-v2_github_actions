@@ -10,7 +10,7 @@ import org.workflow.cqrs.failure.CommandFailureStrategy;
 
 public class DefaultCommandPostProcessorFailure implements CommandFailureStrategy {
 
-  private static final Logger log = LoggerFactory.getLogger(DefaultCommandExecutionFailure.class);
+  private static final Logger log = LoggerFactory.getLogger(DefaultCommandPostProcessorFailure.class);
 
   private final CommandStore store;
 
