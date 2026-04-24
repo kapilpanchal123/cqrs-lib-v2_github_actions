@@ -63,7 +63,9 @@ public interface CommandStore {
    *
    * @param command the command to be persisted
    */
-  void save(final Command<?> command);
+  void save(final Command<?> command, final CommandStatus status);
+
+  void save(final Command<?> command, final CommandStatus status, final Throwable t);
 
   /**
    * Updates the execution status of an existing command.
@@ -74,8 +76,8 @@ public interface CommandStore {
    * @param commandId the unique identifier of the command
    * @param status the new {@link CommandStatus} to be applied
    */
-  void updateStatus(final UUID commandId, final CommandStatus status);
+  void update(final UUID commandId, final CommandStatus status);
 
-  void updateStatus(final UUID commandId, final CommandStatus status, final String error);
+  void update(final UUID commandId, final CommandStatus status, final Throwable t);
 
 }

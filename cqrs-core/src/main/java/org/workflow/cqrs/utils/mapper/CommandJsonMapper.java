@@ -96,7 +96,7 @@ public class CommandJsonMapper {
    * @throws RuntimeException if the class cannot be found or deserialization fails
    */
   public<T> T map(final JsonNode source) {
-    if(source != null) {
+    if(source == null) {
       return null;
     }
     final var canonicalName = source.get(CLASS_ATTRIBUTE).asText();

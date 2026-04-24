@@ -99,6 +99,6 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
    */
   @Override
   public void run(final Command<T> command) {
-    commandStore.updateStatus(command.getId(), CommandStatus.COMPLETED);
+    commandStore.update(command.getId(), CommandStatus.COMPLETED);
   }
 }
