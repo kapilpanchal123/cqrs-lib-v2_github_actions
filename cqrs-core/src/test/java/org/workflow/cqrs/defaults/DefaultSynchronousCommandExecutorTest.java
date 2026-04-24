@@ -16,14 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.implementation;
+package org.workflow.cqrs.defaults;
 
 import org.workflow.cqrs.core.CommandHandler;
 import org.workflow.cqrs.core.CommandMiddleware;
 import org.workflow.cqrs.core.CommandRouter;
-import org.workflow.cqrs.implementation.command.UserCommand;
-import org.workflow.cqrs.implementation.data.TestPayloadRequest;
-import org.workflow.cqrs.implementation.data.TestPayloadResponse;
+import org.workflow.cqrs.defaults.command.UserCommand;
+import org.workflow.cqrs.defaults.data.TestPayloadRequest;
+import org.workflow.cqrs.defaults.data.TestPayloadResponse;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
