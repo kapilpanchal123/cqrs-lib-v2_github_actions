@@ -10,7 +10,7 @@ public class NoOpCommandTransactionManager implements CommandTransactionManager 
     try {
       return action.execute(() -> {});
     } catch(final Throwable t) {
-      throw (t instanceof RuntimeException re) ? (RuntimeException) re : new RuntimeException(t);
+      throw (t instanceof RuntimeException re) ? re : new RuntimeException(t);
     }
   }
 

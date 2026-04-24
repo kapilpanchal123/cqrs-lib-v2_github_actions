@@ -1,6 +1,6 @@
 Bundle-Name: CQRS Library
 Bundle-SymbolicName: org.workflow.cqrs
-Bundle-Version: 0.2.2
+Bundle-Version: 0.2.3
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
 
 Bundle-Description: This repository contains a lightweight \
