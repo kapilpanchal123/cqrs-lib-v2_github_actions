@@ -16,48 +16,51 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.postprocess;
+package org.workflow.cqrs.defaults;
 
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandPostProcessor;
 import org.workflow.cqrs.core.CommandStatus;
-import org.workflow.cqrs.persistence.repository.CommandStore;
+import org.workflow.cqrs.core.CommandStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Default resilience-oriented post-processor for CQRS command execution.
+ * Default implementation of {@link CommandPostProcessor} for CQRS command execution.
  *
- * <p>This implementation updates the persistent state of a {@link Command} after
- * execution has completed, marking it as {@link CommandStatus#COMPLETED}.
+ * <p>This post-processor updates the persistent state of a {@link Command} after
+ * successful execution, marking it as {@link CommandStatus#COMPLETED}.
  *
  * <h2>Purpose</h2>
- * <p>This post-processor is responsible for ensuring that command execution state
- * is consistently reflected in the {@link CommandStore}, enabling:
+ * <p>This implementation ensures that command execution results are consistently
+ * reflected in the {@link CommandStore}, enabling:
  * <ul>
- *   <li>Reliable lifecycle tracking</li>
+ *   <li>Accurate lifecycle tracking of commands</li>
  *   <li>Auditability of successful executions</li>
- *   <li>Resilience in distributed systems</li>
+ *   <li>Consistent state visibility across distributed systems</li>
  * </ul>
  *
  * <h2>Behavior</h2>
- * <p>Upon invocation, this processor:
+ * <p>Upon invocation, this post-processor:
  * <ol>
- *   <li>Receives the executed {@link Command}</li>
- *   <li>Updates its status to {@link CommandStatus#COMPLETED} in the {@link CommandStore}</li>
+ *   <li>Receives a successfully executed {@link Command}</li>
+ *   <li>Transitions its status to {@link CommandStatus#COMPLETED}</li>
+ *   <li>Persists the updated state using the {@link CommandStore}</li>
  * </ol>
  *
  * <h2>Failure Handling</h2>
- * <p>This implementation assumes successful execution. It does not currently handle
- * failure scenarios or update the status to {@link CommandStatus#FAILED}.
+ * <p>This implementation assumes successful execution of the command.
+ * It does not handle failure scenarios or transition the command to
+ * {@link CommandStatus#FAILED}. Failure handling is expected to be
+ * implemented by a dedicated post-processor or upstream component.
  *
  * <h2>Logging</h2>
- * <p>A logger is defined for potential observability or debugging, although it is not
- * actively used in the current implementation.
+ * <p>A logger is provided for observability and debugging. Subclasses
+ * may extend this implementation to add structured logging or metrics.
  *
  * <h2>Thread Safety</h2>
- * <p>This class is thread-safe provided that the underlying {@link CommandStore}
- * implementation is thread-safe.
+ * <p>This class is thread-safe provided that the underlying
+ * {@link CommandStore} implementation is thread-safe.
  *
  * @param <T> the type of the command payload being processed
  *
@@ -65,12 +68,12 @@ import org.slf4j.LoggerFactory;
  * @see CommandStore
  * @see CommandStatus
  */
-public class DefaultResiliencePostProcessor<T> implements CommandPostProcessor<T> {
+public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
 
   /**
    * Logger used for debugging and operational visibility.
    */
-  private static final Logger log = LoggerFactory.getLogger(DefaultResiliencePostProcessor.class);
+  private static final Logger log = LoggerFactory.getLogger(DefaultCommandPostProcessor.class);
 
   /**
    * Persistent store used to update command execution state.
@@ -78,17 +81,19 @@ public class DefaultResiliencePostProcessor<T> implements CommandPostProcessor<T
   private final CommandStore commandStore;
 
   /**
-   * Creates a new {@code DefaultResiliencePostProcessor}.
+   * Creates a new {@code DefaultCommandPostProcessor}.
    *
-   * @param commandStore the store used to update command status
+   * @param commandStore the store used to persist command status updates
    */
-  public DefaultResiliencePostProcessor(final CommandStore commandStore) {
+  public DefaultCommandPostProcessor(final CommandStore commandStore) {
     this.commandStore = commandStore;
   }
 
   /**
    * Marks the given {@link Command} as {@link CommandStatus#COMPLETED}
    * in the {@link CommandStore}.
+   *
+   * <p>This method should be invoked only after successful command execution.
    *
    * @param command the command that has been successfully processed
    */

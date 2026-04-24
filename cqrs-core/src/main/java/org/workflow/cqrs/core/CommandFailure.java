@@ -16,32 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.implementation.data;
+package org.workflow.cqrs.core;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
+public interface CommandFailure {
 
-public class TestPayloadResponse implements Serializable {
+  void onFailure(final Command<?> command, final Throwable t);
 
-  @Serial
-  private static final long serialVersionUID = 1L;
-
-  private Map<String, Object> response = new LinkedHashMap<>();
-
-  public TestPayloadResponse() {
-  }
-
-  public TestPayloadResponse(Map<String, Object> response) {
-    this.response = response;
-  }
-
-  public Map<String, Object> getResponse() {
-    return response;
-  }
-
-  public void setResponse(Map<String, Object> response) {
-    this.response = response;
-  }
 }

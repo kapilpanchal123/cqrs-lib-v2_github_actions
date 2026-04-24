@@ -16,11 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.persistence.middlewares;
+package org.workflow.cqrs.defaults;
 
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandMiddleware;
-import org.workflow.cqrs.persistence.repository.CommandStore;
+import org.workflow.cqrs.core.CommandStore;
 
 /**
  * Default persistence middleware for CQRS command execution.

@@ -31,8 +31,8 @@ Import-Package: android.os,java.beans,java.io,java.lang,java.lang.anno
  l.transform,javax.xml.transform.dom,javax.xml.transform.stream,org.w3
  c.dom,org.xml.sax,sun.misc
 Private-Package: org.workflow.cqrs.core,org.workflow.cqrs.implementati
- on,org.workflow.cqrs.persistence.converter,org.workflow.cqrs.persiste
- nce.mapper,org.workflow.cqrs.persistence.middlewares,org.workflow.cqr
+ on,org.workflow.cqrs.utils.converter,org.workflow.cqrs.persiste
+ nce.mapper,org.workflow.cqrs.utils.middlewares,org.workflow.cqr
  s.persistence.repository,org.workflow.cqrs.postprocess,com.fasterxml.
  jackson.core,com.fasterxml.jackson.databind,com.fasterxml.jackson.dat
  abind.node,com.google.common.reflect,jakarta.persistence,org.slf4j,co

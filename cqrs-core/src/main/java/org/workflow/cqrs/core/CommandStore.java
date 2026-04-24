@@ -16,11 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.persistence.repository;
+package org.workflow.cqrs.core;
 
 import java.util.UUID;
-import org.workflow.cqrs.core.Command;
-import org.workflow.cqrs.core.CommandStatus;
 
 /**
  * Persistence abstraction for storing and updating {@link Command} lifecycle information
@@ -77,5 +75,7 @@ public interface CommandStore {
    * @param status the new {@link CommandStatus} to be applied
    */
   void updateStatus(final UUID commandId, final CommandStatus status);
+
+  void updateStatus(final UUID commandId, final CommandStatus status, final String error);
 
 }

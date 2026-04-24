@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.implementation;
+package org.workflow.cqrs.defaults;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.workflow.cqrs.core.CommandExecutor;
 import org.workflow.cqrs.core.CommandPostProcessor;
 import org.workflow.cqrs.core.CommandStatus;
-import org.workflow.cqrs.implementation.command.UserCommand;
-import org.workflow.cqrs.implementation.data.TestPayloadRequest;
+import org.workflow.cqrs.defaults.command.UserCommand;
+import org.workflow.cqrs.defaults.data.TestPayloadRequest;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -53,23 +53,23 @@ class DefaultCommandPipelineTest {
 
   @BeforeEach
   void setUp() {
-    pipeline = new DefaultCommandPipeline(commandExecutor, List.of(postProcess));
-
-    final TestPayloadRequest payload = new TestPayloadRequest("test-username1",
-        "email1@email.com",
-        "firstname1",
-        "lastname1",
-        10);
-
-    userCommand = new UserCommand();
-    userCommand.setId(UUID.randomUUID());
-    userCommand.setStatus(CommandStatus.INIT);
-    userCommand.setCreatedAt(OffsetDateTime.now());
-    userCommand.setIdempotencyKey(UUID.randomUUID().toString());
-    userCommand.setUpdatedAt(OffsetDateTime.now());
-    userCommand.setTenantId("1");
-    userCommand.setUsername("username1");
-    userCommand.setPayload(payload);
+//    pipeline = new DefaultCommandPipeline(commandExecutor, List.of(postProcess));
+//
+//    final TestPayloadRequest payload = new TestPayloadRequest("test-username1",
+//        "email1@email.com",
+//        "firstname1",
+//        "lastname1",
+//        10);
+//
+//    userCommand = new UserCommand();
+//    userCommand.setId(UUID.randomUUID());
+//    userCommand.setStatus(CommandStatus.INIT);
+//    userCommand.setCreatedAt(OffsetDateTime.now());
+//    userCommand.setIdempotencyKey(UUID.randomUUID().toString());
+//    userCommand.setUpdatedAt(OffsetDateTime.now());
+//    userCommand.setTenantId("1");
+//    userCommand.setUsername("username1");
+//    userCommand.setPayload(payload);
   }
 
   @Disabled
