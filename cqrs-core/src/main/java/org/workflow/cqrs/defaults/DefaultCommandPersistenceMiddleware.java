@@ -88,9 +88,8 @@ public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
   @Override
   public void invoke(final Command<?> command) {
 //    commandStore.save(command, CommandStatus.PROCESSING);
-    transactionManager.execute(txStatus -> {
+//    transactionManager.execute(txStatus -> {
       commandStore.save(command, CommandStatus.PROCESSING);
-      return null;
-    });
+//      return null;
   }
 }
