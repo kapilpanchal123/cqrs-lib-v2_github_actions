@@ -66,18 +66,23 @@ public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
    */
   private final CommandStore commandStore;
 
-  private final CommandTransactionManager transactionManager;
+//  private final CommandTransactionManager transactionManager;
 
   /**
    * Creates a new {@code DefaultCommandPersistenceMiddleware}.
    *
    * @param commandStore the store used to persist commands
    */
-  public DefaultCommandPersistenceMiddleware(
-      final CommandStore commandStore,
-      final CommandTransactionManager transactionManager) {
+//  public DefaultCommandPersistenceMiddleware(
+//      final CommandStore commandStore,
+//      final CommandTransactionManager transactionManager) {
+//    this.commandStore = commandStore;
+//    this.transactionManager = transactionManager;
+//  }
+
+
+  public DefaultCommandPersistenceMiddleware(final CommandStore commandStore) {
     this.commandStore = commandStore;
-    this.transactionManager = transactionManager;
   }
 
   /**

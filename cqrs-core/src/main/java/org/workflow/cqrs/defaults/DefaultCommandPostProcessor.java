@@ -81,18 +81,22 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
    */
   private final CommandStore commandStore;
 
-  private final CommandTransactionManager transactionManager;
+//  private final CommandTransactionManager transactionManager;
 
   /**
    * Creates a new {@code DefaultCommandPostProcessor}.
    *
    * @param commandStore the store used to persist command status updates
    */
-  public DefaultCommandPostProcessor(
-      final CommandStore commandStore,
-      final CommandTransactionManager transactionManager) {
+//  public DefaultCommandPostProcessor(
+//      final CommandStore commandStore,
+//      final CommandTransactionManager transactionManager) {
+//    this.commandStore = commandStore;
+//    this.transactionManager = transactionManager;
+//  }
+
+  public DefaultCommandPostProcessor(final CommandStore commandStore) {
     this.commandStore = commandStore;
-    this.transactionManager = transactionManager;
   }
 
   /**

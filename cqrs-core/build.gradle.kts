@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-version = "0.2.10"
+version = "0.2.11"
 group = "io.github.kapil-panchal"
 
 plugins {
