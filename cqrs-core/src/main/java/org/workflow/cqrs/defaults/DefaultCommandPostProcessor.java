@@ -105,9 +105,9 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
    */
   @Override
   public void run(final Command<T> command) {
-    transactionManager.executeIndependent(txStatus -> {
+//    transactionManager.executeIndependent(txStatus -> {
       commandStore.update(command.getId(), CommandStatus.COMPLETED);
-      return null;
+//      return null;
     });
   }
 }
