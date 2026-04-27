@@ -108,6 +108,5 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
 //    transactionManager.executeIndependent(txStatus -> {
       commandStore.update(command.getId(), CommandStatus.COMPLETED);
 //      return null;
-    });
   }
 }

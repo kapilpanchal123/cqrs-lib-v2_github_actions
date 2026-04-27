@@ -35,8 +35,7 @@ public class DefaultCommandPipeline implements CommandPipeline {
     Objects.requireNonNull(command, "Command Must Not be Null.");
 
     return () -> {
-      PipelineResult<RES> pipelineResult = transactionManager.execute(sp -> {
-
+      final PipelineResult<RES> pipelineResult = transactionManager.execute(sp -> {
         final Supplier<RES> baseSupplier;
         try {
           baseSupplier = executor.execute(command);
@@ -52,19 +51,17 @@ public class DefaultCommandPipeline implements CommandPipeline {
 
         try {
           final RES result = baseSupplier.get();
-
           for(final CommandPostProcessor<?> postProcessor : postProcessors) {
             CommandPostProcessor<REQ> typed = (CommandPostProcessor<REQ>) postProcessor;
             typed.run(command);
           }
           sp.releaseSavepoint("beforeHandlerSavepoint1");
           return PipelineResult.success(result);
-
-        } catch(Throwable t) {
+        } catch(final Throwable t) {
           sp.rollbackToSavepoint("beforeHandlerSavepoint1");
           sp.releaseSavepoint("beforeHandlerSavepoint1");
 
-          for(final CommandFailureStrategy h :  failureHandlers) {
+          for(final CommandFailureStrategy h : failureHandlers) {
             if(h.supports(CommandFailureStage.EXECUTION)) {
               h.onFailure(command, t);
             }

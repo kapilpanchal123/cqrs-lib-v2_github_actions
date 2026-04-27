@@ -91,6 +91,5 @@ public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
 //    transactionManager.execute(txStatus -> {
       commandStore.save(command, CommandStatus.PROCESSING);
 //      return null;
-    });
   }
 }
