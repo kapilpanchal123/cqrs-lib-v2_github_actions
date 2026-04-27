@@ -27,6 +27,7 @@ import org.workflow.cqrs.core.CommandPipeline;
 import org.workflow.cqrs.core.CommandPostProcessor;
 import org.workflow.cqrs.failure.CommandFailureStage;
 import org.workflow.cqrs.failure.CommandFailureStrategy;
+import org.workflow.cqrs.transactions.CommandTransactionManager;
 
 /**
  * Default implementation of the {@link CommandPipeline} responsible for orchestrating
@@ -91,6 +92,7 @@ public class DefaultCommandPipeline implements CommandPipeline {
   private final CommandExecutor executor;
   private final List<CommandPostProcessor<?>> postProcessors;
   private final List<CommandFailureStrategy> failureHandlers;
+  private final CommandTransactionManager transactionManager;
 
   /**
    * Creates a new {@code DefaultCommandPipeline}.
@@ -102,10 +104,12 @@ public class DefaultCommandPipeline implements CommandPipeline {
   public DefaultCommandPipeline(
       final CommandExecutor executor,
       final List<CommandPostProcessor<?>> postProcessors,
-      final List<CommandFailureStrategy> failureHandlers) {
+      final List<CommandFailureStrategy> failureHandlers,
+      final CommandTransactionManager transactionManager) {
     this.executor = executor;
     this.postProcessors = postProcessors;
     this.failureHandlers = failureHandlers;
+    this.transactionManager = transactionManager;
   }
 
   /**
@@ -124,49 +128,52 @@ public class DefaultCommandPipeline implements CommandPipeline {
    */
   @Override
   public <REQ,RES> Supplier<RES> send(final Command<REQ> command) {
-    Objects.requireNonNull(command, "Command Must Not be Null.");
-    // Execution Block
-    Supplier<RES> baseSupplier;
-    try {
-      baseSupplier = executor.execute(command);
-    } catch(Throwable e) {
-      for(final CommandFailureStrategy handler : failureHandlers) {
-        if(handler.supports(CommandFailureStage.EXECUTION)) {
-          handler.onFailure(command, e);
-        }
-      }
 
-      if(e instanceof RuntimeException) {
-        throw (RuntimeException) e;
-      }
-      throw new RuntimeException(e);
-    }
-
-    // Post-processing block
-    // Wrap base supplier with post-processing
-    return () -> {
+    return transactionManager.execute(txManager -> {
+      Objects.requireNonNull(command, "Command Must Not be Null.");
+//      txManager.savepoint("payloadsavepoint");
+      Supplier<RES> baseSupplier;
       try {
-        RES result = baseSupplier.get();
-
-        // Execute post-processing with both result and exception
-        for(final CommandPostProcessor<?> postProcessor : postProcessors) {
-          final CommandPostProcessor<REQ> typedProcessor = (CommandPostProcessor<REQ>) postProcessor;
-          typedProcessor.run(command);
-        }
-        return result;
-      } catch(final Throwable e) {
-        // Failure Handlers to handle incase of command failure
-        for(final CommandFailureStrategy handler : failureHandlers) {
-          if(handler.supports(CommandFailureStage.POST_PROCESSING)) {
+        baseSupplier = executor.execute(command);
+      } catch (Throwable e) {
+//        txManager.rollbackToSavepoint("payloadsavepoint");
+        for (final CommandFailureStrategy handler : failureHandlers) {
+          if (handler.supports(CommandFailureStage.EXECUTION)) {
             handler.onFailure(command, e);
           }
         }
 
-        if(e instanceof RuntimeException) {
+        if (e instanceof RuntimeException) {
           throw (RuntimeException) e;
         }
         throw new RuntimeException(e);
       }
-    };
+
+      // Return Supplier<RES> → this becomes T
+      return () -> {
+        try {
+          RES result = baseSupplier.get();
+
+          for (final CommandPostProcessor<?> postProcessor : postProcessors) {
+            final CommandPostProcessor<REQ> typedProcessor =
+                (CommandPostProcessor<REQ>) postProcessor;
+            typedProcessor.run(command);
+          }
+
+          return result;
+        } catch (Throwable e) {
+          for (final CommandFailureStrategy handler : failureHandlers) {
+            if (handler.supports(CommandFailureStage.POST_PROCESSING)) {
+              handler.onFailure(command, e);
+            }
+          }
+
+          if (e instanceof RuntimeException) {
+            throw (RuntimeException) e;
+          }
+          throw new RuntimeException(e);
+        }
+      };
+    });
   }
 }

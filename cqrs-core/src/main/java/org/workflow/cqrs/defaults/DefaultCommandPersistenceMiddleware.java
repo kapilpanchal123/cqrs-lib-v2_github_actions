@@ -22,6 +22,7 @@ import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandMiddleware;
 import org.workflow.cqrs.core.CommandStatus;
 import org.workflow.cqrs.core.CommandStore;
+import org.workflow.cqrs.transactions.CommandTransactionManager;
 
 /**
  * Default persistence middleware for CQRS command execution.
@@ -65,13 +66,18 @@ public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
    */
   private final CommandStore commandStore;
 
+  private final CommandTransactionManager transactionManager;
+
   /**
    * Creates a new {@code DefaultCommandPersistenceMiddleware}.
    *
    * @param commandStore the store used to persist commands
    */
-  public DefaultCommandPersistenceMiddleware(final CommandStore commandStore) {
+  public DefaultCommandPersistenceMiddleware(
+      final CommandStore commandStore,
+      final CommandTransactionManager transactionManager) {
     this.commandStore = commandStore;
+    this.transactionManager = transactionManager;
   }
 
   /**
@@ -81,6 +87,10 @@ public class DefaultCommandPersistenceMiddleware implements CommandMiddleware {
    */
   @Override
   public void invoke(final Command<?> command) {
-    commandStore.save(command, CommandStatus.PROCESSING);
+//    commandStore.save(command, CommandStatus.PROCESSING);
+    transactionManager.execute(txStatus -> {
+      commandStore.save(command, CommandStatus.PROCESSING);
+      return null;
+    });
   }
 }
