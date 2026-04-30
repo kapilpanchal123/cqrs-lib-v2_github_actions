@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-Description: This repository contains a lightweight implementat
  ion of the Command Query Responsibility Segregation (CQRS) pattern wr
- itten in 100% Java. It provides abstractions for Commands, Queries, a
+ itten in Java. It provides abstractions for Commands, Queries, a
  nd their respective handlers, enabling clear separation between write
   and read operations. The library supports extensible pipelines for v
  alidation, logging, and idempotency, and is designed to integrate sea
