@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.defaults.data;
+package org.workflow.cqrs.support.data;
 
 import java.io.Serial;
 import java.io.Serializable;

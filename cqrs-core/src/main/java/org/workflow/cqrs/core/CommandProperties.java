@@ -64,7 +64,7 @@ public final class CommandProperties implements Serializable {
    * <p>If set to {@code false}, the command pipeline should reject or bypass execution
    * of all incoming commands.
    */
-  private Boolean enabled = Boolean.TRUE;
+  private boolean enabled = true;
 
   /**
    * Defines the execution strategy used by the command pipeline.
@@ -113,7 +113,7 @@ public final class CommandProperties implements Serializable {
    *
    * @return {@code true} if command execution is enabled, otherwise {@code false}
    */
-  public Boolean getEnabled() {
+  public boolean isEnabled() {
     return enabled;
   }
 
@@ -122,7 +122,7 @@ public final class CommandProperties implements Serializable {
    *
    * @param enabled {@code true} to enable command execution, {@code false} to disable it
    */
-  public void setEnabled(final Boolean enabled) {
+  public void setEnabled(final boolean enabled) {
     this.enabled = enabled;
   }
 

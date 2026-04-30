@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.defaults;
+package org.workflow.cqrs.support;
 
 import java.util.List;
 import org.workflow.cqrs.core.Command;
