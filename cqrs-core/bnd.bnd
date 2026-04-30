@@ -1,11 +1,11 @@
 Bundle-Name: CQRS Library
 Bundle-SymbolicName: org.workflow.cqrs
-Bundle-Version: 0.2.13
+Bundle-Version: 0.2.14
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
 
 Bundle-Description: This repository contains a lightweight \
  implementation of the Command Query Responsibility Segregation \
- (CQRS) pattern written in 100% Java. It provides abstractions \
+ (CQRS) pattern written in Java. It provides abstractions \
  for Commands, Queries, and their respective handlers, enabling \
  clear separation between write and read operations. \
  The library supports extensible pipelines for validation, \

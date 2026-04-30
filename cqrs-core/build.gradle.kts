@@ -21,7 +21,7 @@ import org.gradle.api.tasks.testing.TestResult
 import org.gradle.api.tasks.testing.TestDescriptor
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-version = "0.2.13"
+version = "0.2.14"
 group = "io.github.kapil-panchal"
 
 plugins {
@@ -53,10 +53,6 @@ java {
     languageVersion = JavaLanguageVersion.of(21)
   }
 }
-
-//tasks.named<Test>("test") {
-//  useJUnitPlatform()
-//}
 
 tasks.named<Test>("test") {
   useJUnitPlatform()
