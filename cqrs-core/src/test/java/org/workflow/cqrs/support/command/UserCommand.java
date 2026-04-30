@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.defaults.command;
+package org.workflow.cqrs.support.command;
 
 import org.workflow.cqrs.core.Command;
-import org.workflow.cqrs.defaults.data.TestPayloadRequest;
+import org.workflow.cqrs.support.data.TestPayloadRequest;
 import java.io.Serial;
 
 public class UserCommand extends Command<TestPayloadRequest> {

@@ -16,7 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-version = "0.2.12"
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.TestResult
+import org.gradle.api.tasks.testing.TestDescriptor
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+version = "0.2.13"
 group = "io.github.kapil-panchal"
 
 plugins {
@@ -49,8 +54,36 @@ java {
   }
 }
 
+//tasks.named<Test>("test") {
+//  useJUnitPlatform()
+//}
+
 tasks.named<Test>("test") {
   useJUnitPlatform()
+
+  testLogging {
+    events(
+      org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+      org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+      org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+    )
+    showStandardStreams = true
+  }
+
+  addTestListener(object : TestListener {
+    override fun afterTest(descriptor: TestDescriptor, result: TestResult) {
+      val status = when (result.resultType) {
+        TestResult.ResultType.SUCCESS -> "SUCCESS"
+        TestResult.ResultType.FAILURE -> "FAILED"
+        TestResult.ResultType.SKIPPED -> "SKIPPED"
+      }
+      println("$status :: ${descriptor.className}.${descriptor.name}")
+    }
+
+    override fun beforeTest(descriptor: TestDescriptor) {}
+    override fun beforeSuite(descriptor: TestDescriptor) {}
+    override fun afterSuite(descriptor: TestDescriptor, result: TestResult) {}
+  })
 }
 
 tasks.test {

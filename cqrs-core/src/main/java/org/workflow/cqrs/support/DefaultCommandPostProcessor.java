@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.workflow.cqrs.defaults;
+package org.workflow.cqrs.support;
 
 import org.workflow.cqrs.core.Command;
 import org.workflow.cqrs.core.CommandPostProcessor;
@@ -24,7 +24,6 @@ import org.workflow.cqrs.core.CommandStatus;
 import org.workflow.cqrs.core.CommandStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.workflow.cqrs.transactions.CommandTransactionManager;
 
 /**
  * Default implementation of {@link CommandPostProcessor} for CQRS command execution.
@@ -71,30 +70,15 @@ import org.workflow.cqrs.transactions.CommandTransactionManager;
  */
 public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
 
-  /**
-   * Logger used for debugging and operational visibility.
-   */
   private static final Logger log = LoggerFactory.getLogger(DefaultCommandPostProcessor.class);
 
-  /**
-   * Persistent store used to update command execution state.
-   */
   private final CommandStore commandStore;
-
-//  private final CommandTransactionManager transactionManager;
 
   /**
    * Creates a new {@code DefaultCommandPostProcessor}.
    *
    * @param commandStore the store used to persist command status updates
    */
-//  public DefaultCommandPostProcessor(
-//      final CommandStore commandStore,
-//      final CommandTransactionManager transactionManager) {
-//    this.commandStore = commandStore;
-//    this.transactionManager = transactionManager;
-//  }
-
   public DefaultCommandPostProcessor(final CommandStore commandStore) {
     this.commandStore = commandStore;
   }
@@ -109,8 +93,6 @@ public class DefaultCommandPostProcessor<T> implements CommandPostProcessor<T> {
    */
   @Override
   public void run(final Command<T> command) {
-//    transactionManager.executeIndependent(txStatus -> {
       commandStore.update(command.getId(), CommandStatus.COMPLETED);
-//      return null;
   }
 }

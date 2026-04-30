@@ -62,10 +62,9 @@ public interface CommandStore {
    * durability and traceability.
    *
    * @param command the command to be persisted
+   * @param status the status of the command
    */
   void save(final Command<?> command, final CommandStatus status);
-
-  void save(final Command<?> command, final CommandStatus status, final Throwable t);
 
   /**
    * Updates the execution status of an existing command.
@@ -78,6 +77,29 @@ public interface CommandStore {
    */
   void update(final UUID commandId, final CommandStatus status);
 
+  /**
+   * Updates the execution status of an existing command and records failure details.
+   *
+   * <p>This method is typically invoked when command processing fails.
+   *
+   * <p>Implementations should:
+   * <ul>
+   *   <li>Persist the {@link CommandStatus#FAILED} state (or equivalent)</li>
+   *   <li>Capture relevant error information from the provided {@link Throwable}</li>
+   *   <li>Ensure that failure details are available for auditing and diagnostics</li>
+   * </ul>
+   *
+   * <p>The provided {@link Throwable} may be stored as:
+   * <ul>
+   *   <li>A message ({@link Throwable#getMessage()})</li>
+   *   <li>A serialized stack trace</li>
+   *   <li>A structured error representation</li>
+   * </ul>
+   *
+   * @param commandId the unique identifier of the command
+   * @param status the failure status to be applied
+   * @param t the exception or error that caused the failure
+   */
   void update(final UUID commandId, final CommandStatus status, final Throwable t);
 
 }
