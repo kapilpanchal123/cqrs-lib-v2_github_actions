@@ -62,6 +62,7 @@ public interface CommandStore {
    * durability and traceability.
    *
    * @param command the command to be persisted
+   * @param status the status of the command
    */
   void save(final Command<?> command, final CommandStatus status);
 

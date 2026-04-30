@@ -226,8 +226,8 @@ public class DefaultCommandPipeline implements CommandPipeline {
    *   <li>Transaction management</li>
    * </ul>
    *
-   * <h2>Execution Semantics</h2>
-   * <p>When the returned {@link Supplier} is invoked:
+   * <p><b>Execution Semantics:</b></p>
+   * <p>When the returned {@link Supplier} is invoked:</p>
    * <ol>
    *   <li>A transaction is started via {@link CommandTransactionManager}</li>
    *   <li>Middleware and handler resolution are executed</li>
@@ -244,42 +244,41 @@ public class DefaultCommandPipeline implements CommandPipeline {
    *   </li>
    * </ol>
    *
-   * <h2>Failure Handling Behavior</h2>
+   * <p><b>Failure Handling Behavior:</b></p>
    *
-   * <h3>Execution Failures (Middleware / Routing)</h3>
+   * <p><b>Execution Failures (Middleware / Routing):</b></p>
    * <ul>
    *   <li>Handled using independent transactions</li>
    *   <li>Ensures failure state is persisted even if outer transaction rolls back</li>
    * </ul>
    *
-   * <h3>Handler / Post-Processing Failures</h3>
+   * <p><b>Handler / Post-Processing Failures:</b></p>
    * <ul>
    *   <li>Rollback occurs only to the savepoint</li>
    *   <li>Failure strategies run within the same transaction</li>
    *   <li>Transaction commits with FAILED status</li>
    * </ul>
    *
-   * <h2>Deferred Execution</h2>
-   * <p>The use of {@link Supplier} allows:
+   * <p><b>Deferred Execution:</b></p>
    * <ul>
    *   <li>Lazy execution</li>
    *   <li>Integration with asynchronous frameworks</li>
    *   <li>Separation of pipeline construction from execution</li>
    * </ul>
    *
-   * <h2>⚠ Critical Behavior</h2>
+   * <p><b>Critical Behavior:</b></p>
    * <p>Failures during handler or post-processing are <b>not thrown immediately</b>
    * within the transaction block. Instead, they are wrapped in a
-   * {@link PipelineResult} and returned.
+   * {@link PipelineResult} and returned.</p>
    *
-   * <p>This ensures:
+   * <p>This ensures:</p>
    * <ul>
    *   <li>The transaction commits with the FAILED status</li>
    *   <li>Audit and persistence data are not lost</li>
    * </ul>
    *
    * <p>The exception is rethrown <b>after</b> the transaction completes when
-   * {@link PipelineResult#getOrThrow()} is invoked.
+   * {@link PipelineResult#getOrThrow()} is invoked.</p>
    *
    * @param command the command to be executed
    * @param <REQ> the type of the command payload
