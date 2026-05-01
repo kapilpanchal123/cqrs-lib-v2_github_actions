@@ -19,10 +19,9 @@ name: Gradle CI + Develop Publish
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ develop ]
-
+    branches: [ '**' ]
 jobs:
 
   ci:
