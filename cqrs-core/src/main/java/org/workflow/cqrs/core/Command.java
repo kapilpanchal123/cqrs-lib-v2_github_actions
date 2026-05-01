@@ -95,7 +95,6 @@ public class Command<T> implements Serializable {
    *
    * <p>Typically generated at creation time and used for tracing,
    * correlation, and persistence.
-   *
    */
   private UUID id;
 
