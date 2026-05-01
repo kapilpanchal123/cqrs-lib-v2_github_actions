@@ -45,4 +45,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build and Test
-        run: ./gradlew clean build
+        run: ./gradlew clean build --info
